@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Tab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #2D353B;
+      color: #D3C6AA;
+      font-family: 'Cabin', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .wrapper {
+      max-width: 1000px;
+      width: 100%;
+      padding: 0 0.5rem;
+      box-sizing: border-box;
+      transform: scale(1.1);
+      transform-origin: top center;
+    }
+
+    header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .city {
+      min-width: 180px;
+    }
+
+    .city .label {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .city .time {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .city.bakersfield .time {
+      color: #A7C080;
+    }
+
+    #search {
+      margin-top: 1rem;
+    }
+
+    #search input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 1.1rem 1.3rem;
+      border: 4px solid #dbbc7f;
+      border-radius: 6px;
+      background-color: #343F44;
+      color: #D3C6AA;
+      font-size: 1.2rem;
+    }
+
+    #search input:focus {
+      outline: 2px solid #A7C080;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin: 2.5rem 0;
+    }
+
+    a.bookmark {
+      display: block;
+      text-decoration: none;
+      padding: 1.3rem;
+      border: 4px solid #dbbc7f;
+      border-radius: 10px;
+      background-color: #343F44;
+      color: #D3C6AA;
+      text-align: center;
+      transition: all 0.2s ease;
+      font-size: 1.15rem;
+    }
+
+    a.bookmark:hover {
+      border-color: #A7C080;
+      background-color: #3a4549;
+      color: #A7C080;
+    }
+
+    a.bookmark.wide {
+      grid-column: span 2;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <div class="city bakersfield">
+        <div class="label">Bakersfield</div>
+        <div class="time" id="bakersfield-time">--:--</div>
+      </div>
+      <div class="city">
+        <div class="label">Bissau</div>
+        <div class="time" id="bissau-time">--:--</div>
+      </div>
+      <div class="city">
+        <div class="label">Lisbon</div>
+        <div class="time" id="lisbon-time">--:--</div>
+      </div>
+    </header>
+
+    <form id="search" action="https://duckduckgo.com/" method="get">
+      <input type="text" name="q" placeholder="Search DuckDuckGo...">
+    </form>
+
+    <div class="container">
+      <a class="bookmark" href="https://www.are.na">Are.na</a>
+      <a class="bookmark" href="https://www.bbc.com">BBC</a>
+      <a class="bookmark" href="https://calendar.google.com">Calendar</a>
+      <a class="bookmark" href="https://chat.openai.com">ChatGPT</a>
+      <a class="bookmark" href="https://www.duckduckgo.com">DuckDuckGo</a>
+      <a class="bookmark" href="https://github.com">GitHub</a>
+      <a class="bookmark" href="https://www.google.com">Google</a>
+      <a class="bookmark" href="https://news.ycombinator.com">Hacker News</a>
+
+      <a class="bookmark wide" href="https://www.archive.org">
+        Internet Archive – Historical Books, Audio, Video, and More
+      </a>
+
+      <a class="bookmark wide" href="https://www.literatureandhistory.com">
+        Lit & History – Literature Podcast with Academic Depth
+      </a>
+
+      <a class="bookmark" href="https://mail.proton.me">ProtonMail</a>
+      <a class="bookmark" href="https://www.notion.so">Notion</a>
+      <a class="bookmark" href="https://www.nytimes.com">NY Times</a>
+      <a class="bookmark" href="https://www.obsidian.md">Obsidian</a>
+      <a class="bookmark" href="https://www.raindrop.io">Raindrop</a>
+      <a class="bookmark" href="https://www.reddit.com">Reddit</a>
+      <a class="bookmark" href="https://www.twitch.tv">Twitch</a>
+      <a class="bookmark" href="https://www.wikipedia.org">Wikipedia</a>
+      <a class="bookmark" href="https://www.youtube.com">YouTube</a>
+      <a class="bookmark" href="https://www.you.com">You.com</a>
+    </div>
+  </div>
+
+  <script>
+    const cities = [
+      { id: 'bakersfield', offset: -7 },
+      { id: 'bissau', offset: 0 },
+      { id: 'lisbon', offset: 1 }
+    ];
+
+    function formatTime(date) {
+      let hours = date.getHours();
+      const minutes = date.getMinutes();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    }
+
+    function updateClocks() {
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+
+      cities.forEach(city => {
+        const local = new Date(utc + city.offset * 3600000);
+        const timeStr = formatTime(local);
+        document.getElementById(`${city.id}-time`).textContent = timeStr;
+      });
+    }
+
+    updateClocks();
+    setInterval(updateClocks, 60000);
+  </script>
+</body>
+</html>
+
