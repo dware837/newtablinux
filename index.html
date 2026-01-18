@@ -24,7 +24,7 @@
         --link: #d3c6aa;
         --hover: #a7c080;
 
-        --poem: #62736E;
+        --poem: #62736e;
 
         --border: #3c4841;
         --image-border: #3c4841;
@@ -223,7 +223,7 @@
         </div>
       </div>
 
-      <div class="quote-row" style="margin: var(--v-gap) 0;">
+      <div class="quote-row" style="margin: var(--v-gap) 0">
         <div class="quote-box">
           He felt in his heart cruelty and cowardice, the things which made him brave and kind.
         </div>
@@ -232,11 +232,7 @@
       <div class="main">
         <!-- LEFT COLUMN -->
         <div class="left-column">
-          <img
-            img src="images/hawk.png""
-            alt="Hawk"
-            class="hawk"
-          />
+          <img src="images/hawk.png" alt="Hawk" class="hawk" />
 
           <div class="poem-box">Not all those who pass
 
@@ -287,11 +283,7 @@ To see what sort of savages they were.
             </section>
           </div>
 
-          <img
-            img src="images/creosote.png"
-            alt="Creosote bush"
-            class="creosote"
-          />
+          <img src="images/creosote.png" alt="Creosote bush" class="creosote" />
         </div>
 
         <!-- RIGHT COLUMN -->
@@ -309,13 +301,97 @@ in their tribal circle, outwaiting
 the packs of yellow-eyed wolves that are also
 <em>have you noticed?</em> gone now.</div>
 
-          <img
-            img src="images/jackrabbit.png"
-            alt="Jackrabbit"
-            class="jackrabbit"
-          />
+          <img src="images/jackrabbit.png" alt="Jackrabbit" class="jackrabbit" />
         </div>
       </div>
     </div>
+
+    <script>
+      // Bakersfield, CA
+      const LAT = 35.3733;
+      const LON = -119.0187;
+      const TZ = "America/Los_Angeles";
+
+      function formatTime(date) {
+        const parts = new Intl.DateTimeFormat("en-US", {
+          timeZone: TZ,
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        }).formatToParts(date);
+
+        const hour = parts.find((p) => p.type === "hour")?.value ?? "--";
+        const minute = parts.find((p) => p.type === "minute")?.value ?? "--";
+        return `${hour}:${minute}`;
+      }
+
+      function updateTime() {
+        document.getElementById("time").textContent = formatTime(new Date());
+      }
+
+      function weatherDescriptorFromCode(code) {
+        if (code === 0) return "Clear";
+        if (code === 1) return "Mostly Clear";
+        if (code === 2) return "Partly Cloudy";
+        if (code === 3) return "Cloudy";
+        if (code === 45 || code === 48) return "Fog";
+        if ([51, 53, 55].includes(code)) return "Drizzle";
+        if ([56, 57].includes(code)) return "Freezing";
+        if ([61, 63, 65].includes(code)) return "Rain";
+        if ([66, 67].includes(code)) return "Freezing Rain";
+        if ([71, 73, 75, 77].includes(code)) return "Snow";
+        if ([80, 81, 82].includes(code)) return "Showers";
+        if ([85, 86].includes(code)) return "Snow Showers";
+        if (code === 95) return "Storm";
+        if ([96, 99].includes(code)) return "Hail";
+        return "--";
+      }
+
+      async function updateWeather() {
+        try {
+          const url =
+            `https://api.open-meteo.com/v1/forecast?latitude=${LAT}` +
+            `&longitude=${LON}&current_weather=true&temperature_unit=fahrenheit`;
+          const res = await fetch(url);
+          if (!res.ok) return;
+
+          const data = await res.json();
+          const temp = data?.current_weather?.temperature;
+          const code = data?.current_weather?.weathercode;
+
+          const t = typeof temp === "number" ? `${Math.round(temp)}°` : "--°";
+          const d = typeof code === "number" ? weatherDescriptorFromCode(code) : "--";
+
+          document.getElementById("weather").textContent = `${t} ${d}`;
+        } catch (_) {}
+      }
+
+      async function updateFirstLastLight() {
+        try {
+          const res = await fetch(
+            `https://api.sunrise-sunset.org/json?lat=${LAT}&lng=${LON}&formatted=0`
+          );
+          if (!res.ok) return;
+
+          const data = await res.json();
+          const begin = data?.results?.civil_twilight_begin;
+          const end = data?.results?.civil_twilight_end;
+          if (!begin || !end) return;
+
+          document.getElementById("light").textContent =
+            `${formatTime(new Date(begin))} / ${formatTime(new Date(end))}`;
+        } catch (_) {}
+      }
+
+      // Run once on load
+      updateTime();
+      updateWeather();
+      updateFirstLastLight();
+
+      // Update intervals
+      setInterval(updateTime, 1000 * 30);
+      setInterval(updateWeather, 1000 * 60 * 10);
+      setInterval(updateFirstLastLight, 1000 * 60 * 60);
+    </script>
   </body>
 </html>
