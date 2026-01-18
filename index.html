@@ -30,6 +30,7 @@
         --image-border: #3c4841;
 
         --v-gap: 24px; /* unified vertical rhythm */
+        --quote-gap: 12px; /* tighter space above/below quote line */
       }
 
       * {
@@ -90,7 +91,7 @@
       .quote-row {
         display: flex;
         justify-content: center;
-        margin: 0; /* spacing handled uniformly */
+        margin: var(--quote-gap) 0; /* reduced vertical gaps */
       }
 
       .quote-box {
@@ -109,7 +110,7 @@
         display: grid;
         grid-template-columns: 1fr max-content 1fr;
         align-items: start;
-        padding: var(--v-gap) 28px 0 28px;
+        padding: var(--quote-gap) 28px 0 28px; /* reduced gap below quote */
         column-gap: 32px;
       }
 
@@ -223,7 +224,7 @@
         </div>
       </div>
 
-      <div class="quote-row" style="margin: var(--v-gap) 0">
+      <div class="quote-row">
         <div class="quote-box">
           He felt in his heart cruelty and cowardice, the things which made him brave and kind.
         </div>
@@ -256,7 +257,6 @@ To see what sort of savages they were.
                 <li><a href="https://1904.neocities.org/">Site</a></li>
                 <li><a href="https://neocities.org/dashboard">Site Dev</a></li>
                 <li><a href="https://neocities.org/site/1904">Site Profile</a></li>
-      
               </ul>
             </section>
 
@@ -267,17 +267,16 @@ To see what sort of savages they were.
                 <li><a href="http://localhost:8096/web/index.html#/home">JellyFin</a></li>
                 <li><a href="https://rateyourmusic.com/~valuska">RYM</a></li>
                 <li><a href="https://www.youtube.com/">YouTube</a></li>
-  
               </ul>
             </section>
 
             <section class="col">
               <h2>Work</h2>
               <ul>
-                 <li><a href="https://chatgpt.com/">ChatGPT</a></li>
+                <li><a href="https://chatgpt.com/">ChatGPT</a></li>
                 <li><a href="https://mail.google.com/mail/u/0/#inbox">Gmail</a></li>
                 <li><a href="https://drive.google.com/drive/my-drive">Google Drive</a></li>
-                 <li><a href="https://outlook.office.com/mail/">Outlook</a></li>
+                <li><a href="https://outlook.office.com/mail/">Outlook</a></li>
                 <li><a href="https://drive.proton.me/u/0/cQ7L3gePuclsfx14t4-B3wboSdUtFATdAifLALnq8ocaTEUniKIzB58TCFTYHrwYQ-X4byyuYoKGUV4TNp0Z1Q==/folder/pW2-QMBHeSN1D2DE4V_I6t-rwIP0wrObHaXDB1VRGKCiHZMV4VGiyzZIDkG9gxpR6aY0pGzZEe96aWJzDKL2vA==">Proton Drive</a></li>
                 <li><a href="https://mail.proton.me/u/0/inbox">Proton Mail</a></li>
               </ul>
@@ -300,7 +299,7 @@ fell to earth as the herd stood
 day after day, moon after moon
 in their tribal circle, outwaiting
 the packs of yellow-eyed wolves that are also
-<em>have you noticed?</em> gone now.</div>
+have you noticed? gone now.</div>
 
           <img src="images/jackrabbit.png" alt="Jackrabbit" class="jackrabbit" />
         </div>
@@ -396,3 +395,4 @@ the packs of yellow-eyed wolves that are also
     </script>
   </body>
 </html>
+
