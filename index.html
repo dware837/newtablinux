@@ -29,8 +29,8 @@
         --border: #3c4841;
         --image-border: #3c4841;
 
-        --v-gap: 24px; /* unified vertical rhythm */
-        --quote-gap: 12px; /* tighter space above/below quote line */
+        --v-gap: 24px;
+        --quote-gap: 12px;
       }
 
       * {
@@ -44,7 +44,10 @@
 
       body {
         margin: 0;
-        background: var(--bg);
+        background: url("images/2.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
         font-family: "Ysabeau Office", system-ui, -apple-system, "Segoe UI",
           Roboto, Arial, sans-serif;
         font-size: 120%;
@@ -57,11 +60,11 @@
       }
 
       /* top info boxes */
-      .top-bar {
-        padding: var(--v-gap);
-        display: flex;
-        justify-content: center;
-      }
+.top-bar {
+  padding: var(--v-gap) var(--v-gap) var(--quote-gap) var(--v-gap);
+  display: flex;
+  justify-content: center;
+}
 
       .top-row {
         display: flex;
@@ -70,7 +73,10 @@
       }
 
       .info-box {
-        background: var(--box);
+        background:
+          url("images/tile.jpg") repeat,
+          var(--box);
+        background-size: 384px 384px;
         padding: 12px 16px;
         font-weight: 600;
         font-size: 24px;
@@ -91,11 +97,14 @@
       .quote-row {
         display: flex;
         justify-content: center;
-        margin: var(--quote-gap) 0; /* reduced vertical gaps */
+        margin: var(--quote-gap) 0;
       }
 
       .quote-box {
-        background: var(--box);
+        background:
+          url("images/tile.jpg") repeat,
+          var(--box);
+        background-size: 256px 256px;
         padding: 16px 22px;
         border: 3px solid var(--border);
         color: var(--poem);
@@ -110,7 +119,7 @@
         display: grid;
         grid-template-columns: 1fr max-content 1fr;
         align-items: start;
-        padding: var(--quote-gap) 28px 0 28px; /* reduced gap below quote */
+        padding: var(--quote-gap) 28px 0 28px;
         column-gap: 32px;
       }
 
@@ -140,7 +149,10 @@
       }
 
       .box {
-        background: var(--box);
+        background:
+          url("images/tile.jpg") repeat,
+          var(--box);
+        background-size: 256px 256px;
         padding: 28px;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -167,14 +179,17 @@
         margin: 0 0 10px 0;
       }
 
-      a {
-        color: var(--link);
-        text-decoration: none;
-      }
+a {
+  color: var(--link);
+  text-decoration: none;
+}
 
-      a:hover {
-        color: var(--hover);
-      }
+a:hover {
+  color: var(--hover);
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 3px;
+}
 
       .creosote {
         width: 100%;
@@ -184,7 +199,10 @@
 
       /* poem boxes */
       .poem-box {
-        background: var(--box);
+        background:
+          url("images/tile.jpg") repeat,
+          var(--box);
+        background-size: 256px 256px;
         padding: 28px;
         color: var(--poem);
         font-size: 18px;
@@ -231,7 +249,6 @@
       </div>
 
       <div class="main">
-        <!-- LEFT COLUMN -->
         <div class="left-column">
           <img src="images/hawk.png" alt="Hawk" class="hawk" />
 
@@ -247,7 +264,6 @@ To see what sort of savages they were.
           </div>
         </div>
 
-        <!-- CENTER COLUMN -->
         <div class="center-column">
           <div class="box">
             <section class="col">
@@ -277,7 +293,7 @@ To see what sort of savages they were.
                 <li><a href="https://mail.google.com/mail/u/0/#inbox">Gmail</a></li>
                 <li><a href="https://drive.google.com/drive/my-drive">Google Drive</a></li>
                 <li><a href="https://outlook.office.com/mail/">Outlook</a></li>
-                <li><a href="https://drive.proton.me/u/0/cQ7L3gePuclsfx14t4-B3wboSdUtFATdAifLALnq8ocaTEUniKIzB58TCFTYHrwYQ-X4byyuYoKGUV4TNp0Z1Q==/folder/pW2-QMBHeSN1D2DE4V_I6t-rwIP0wrObHaXDB1VRGKCiHZMV4VGiyzZIDkG9gxpR6aY0pGzZEe96aWJzDKL2vA==">Proton Drive</a></li>
+                <li><a href="https://drive.proton.me/">Proton Drive</a></li>
                 <li><a href="https://mail.proton.me/u/0/inbox">Proton Mail</a></li>
               </ul>
             </section>
@@ -286,7 +302,6 @@ To see what sort of savages they were.
           <img src="images/creosote.png" alt="Creosote bush" class="creosote" />
         </div>
 
-        <!-- RIGHT COLUMN -->
         <div class="right-column">
           <div class="poem-box"><em>Have you noticed?</em> how the rain
 falls soft as the fall
@@ -307,7 +322,6 @@ have you noticed? gone now.</div>
     </div>
 
     <script>
-      // Bakersfield, CA
       const LAT = 35.3733;
       const LON = -119.0187;
       const TZ = "America/Los_Angeles";
@@ -383,12 +397,10 @@ have you noticed? gone now.</div>
         } catch (_) {}
       }
 
-      // Run once on load
       updateTime();
       updateWeather();
       updateFirstLastLight();
 
-      // Update intervals
       setInterval(updateTime, 1000 * 30);
       setInterval(updateWeather, 1000 * 60 * 10);
       setInterval(updateFirstLastLight, 1000 * 60 * 60);
